@@ -4,7 +4,8 @@ import './App.css';
 var maindeck_randoms = ["Skyclave Apparition", "Spirit of the Labrynith", "Phyrexian Revoker",
   "Sanctum Prelate", "Tithe Taker", "Archon of Emeria", "Luminarch Aspirant", "Remorseful Cleric",
   "Walking Ballista", "Hallowed Spiritkeeper", "Palace Jailer", "Brimaz, King of Oreskos",
-  "Mirran Crusader", "Leonin Relic-Warder", "Charming Prince", "Giver of Runes", "Mangara of Corondor"];
+  "Mirran Crusader", "Leonin Relic-Warder", "Charming Prince", "Giver of Runes", "Mangara of Corondor",
+  "Thalia, Heretic Cathar"];
 
 var sideboard_randoms = ["Mindbreak Trap", "Surgical Extraction",
   "Path to Exile", "Council's Judgment", "Rest in Peace", "Grafdigger's Cage", "Containment Priest",
@@ -21,15 +22,14 @@ function getRandomList(is_yorion:boolean) : Map<string, number> {
   decklist.set("Ancient Tomb", randomBetween(0, 1));
   decklist.set("Mishra's Factory", randomBetween(0, 2));
   decklist.set("Silent Clearing", randomBetween(1, 3));
-  var nonbasics = getCount(decklist);
   if (Math.random() < 0.2) {
-    decklist.set("Snow-Covered Plains", randomBetween(0, num_lands-nonbasics));
-    decklist.set("Plains", num_lands-nonbasics);
+    decklist.set("Snow-Covered Plains", randomBetween(0, num_lands-getCount(decklist)));
+    decklist.set("Plains", num_lands-getCount(decklist));
   } else {
     if (Math.random() < 0.5) {
-      decklist.set("Snow-Covered Plains", num_lands-nonbasics);
+      decklist.set("Snow-Covered Plains", num_lands-getCount(decklist));
     } else {
-      decklist.set("Plains", num_lands-nonbasics);
+      decklist.set("Plains", num_lands-getCount(decklist));
     }
   }
 
@@ -37,7 +37,7 @@ function getRandomList(is_yorion:boolean) : Map<string, number> {
   decklist.set("Swords to Plowshares", 4)
   decklist.set("Thalia, Guardian of Thraben", 4);
   decklist.set("Mother of Runes", 4);
-  decklist.set("Flickerwisp", randomBetween(3, 4));
+  decklist.set("Flickerwisp", randomBetween(2, 4));
   decklist.set("Recruiter of the Guard", randomBetween(2, 4));
   decklist.set("Stoneforge Mystic", randomBetween(3, 4));
   decklist.set("Batterskull", 1);
@@ -86,7 +86,7 @@ class DecklistElem extends React.Component<{cardName:string, cardNumber:number},
       return null;
     }
     return (
-      <p>{this.props.cardNumber} {this.props.cardName}</p>
+      <div>{this.props.cardNumber} {this.props.cardName}</div>
     );
   }
 }
